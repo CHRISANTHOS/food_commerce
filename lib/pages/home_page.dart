@@ -8,6 +8,39 @@ import 'cart_page.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
+  void _buyOptions(BuildContext context, int index) {
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Container(
+            height: 150,
+            child: Column(
+              children: [
+                ListTile(
+                  onTap: () {
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Payment method coming soon')));
+                  },
+                  leading: const Icon(Icons.payment),
+                  title: const Text('Buy Now'),
+                ),
+                ListTile(
+                  onTap: () {
+                    Provider.of<CartModel>(context, listen: false).addToCart(index);
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Added to Cart')));
+                  },
+                  leading: const Icon(Icons.shopping_bag),
+                  title: const Text('Add to cart'),
+                ),
+              ],
+            ),
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     final vm = Provider.of<CartModel>(context);
@@ -15,7 +48,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       floatingActionButton: FloatingActionButton(onPressed: (){
         Navigator.push(context, MaterialPageRoute(builder: (context) => CartPage()));
-      },backgroundColor: Colors.black, child: Icon(Icons.shopping_bag),),
+      },backgroundColor: Colors.black, child:vm.cartItems.isEmpty ? const Icon(Icons.shopping_bag) : Text(vm.cartItems.length.toString()),),
       body: SafeArea(
         child: Column(
           children: [
@@ -69,10 +102,7 @@ class HomePage extends StatelessWidget {
                           imagePath: vm.shopItems[index][2],
                           color: vm.shopItems[index][3],
                           onPressed: (){
-                            vm.addToCart(index);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text('Added to Cart')));
-                            print(vm.cartItems);
+                            _buyOptions(context, index);
                           },
                         ),
                       );
