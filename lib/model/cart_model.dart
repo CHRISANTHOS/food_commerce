@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class CartModel extends ChangeNotifier{
 
   final List _shopItems = [
-    ['Cheese Burger', 2860, 'images/cheeseBurger.jpg', Colors.green],
-    ['Pizza', 7000, 'images/cheeseBurger.jpg', Colors.blue],
-    ['Parfait', 4000, 'images/cheeseBurger.jpg', Colors.brown],
-    ['Ice cream', 1500, 'images/cheeseBurger.jpg', Colors.yellowAccent]
+    ['Cheese Burger', 2860, 'images/cheeseBurger.jpg', Colors.green, 1],
+    ['Pizza', 7000, 'images/cheeseBurger.jpg', Colors.blue, 1],
+    ['Parfait', 4000, 'images/cheeseBurger.jpg', Colors.brown, 1],
+    ['Ice cream', 1500, 'images/cheeseBurger.jpg', Colors.yellowAccent, 1]
   ];
 
   final List _cartItems = [];
@@ -28,7 +28,7 @@ class CartModel extends ChangeNotifier{
   String calculateTotal(){
     double totalPrice = 0;
     for(int i = 0; i < _cartItems.length; i++){
-      totalPrice += double.parse(_cartItems[i][1]);
+      totalPrice += double.parse(_cartItems[i][1] * _cartItems[i][4]);
     }
     return totalPrice.toStringAsFixed(2);
   }

@@ -11,11 +11,11 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage> {
-  int quantity = 1;
 
   @override
   Widget build(BuildContext context) {
     final vm = Provider.of<CartModel>(context);
+    int quantity = 1;
 
     return Scaffold(
       appBar: AppBar(
@@ -35,6 +35,26 @@ class _CartPageState extends State<CartPage> {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Slidable(
+                      startActionPane: ActionPane(motion: ScrollMotion(), children: [
+                        SlidableAction(
+                          onPressed: (context){
+                            setState(() {
+                              vm.cartItems[index][4]++;
+                            });
+                          },
+                          backgroundColor: Colors.blue,
+                          icon: Icons.add,
+                        ),
+                        SlidableAction(
+                          onPressed: (context){
+                            setState(() {
+                              vm.cartItems[index][4]--;
+                            });
+                          },
+                          backgroundColor: Colors.white12,
+                          icon: Icons.minimize,
+                        )
+                      ]),
                       endActionPane:
                           ActionPane(motion: ScrollMotion(), children: [
                         SlidableAction(
@@ -49,8 +69,8 @@ class _CartPageState extends State<CartPage> {
                       child: Container(
                         decoration: BoxDecoration(color: Colors.grey[200]),
                         child: ListTile(
-                          leading: Image.asset(vm.cartItems[index][2]),
-                          title: Text(vm.cartItems[index][0]),
+                          leading: Container(width: 100, child: Image.asset(vm.cartItems[index][2])),
+                          title: vm.cartItems[index][4] > 1 ? Text(vm.cartItems[index][0] + ' x${vm.cartItems[index][4]}') : Text(vm.cartItems[index][0]),
                           subtitle:
                               Text('\$' + vm.cartItems[index][1].toString()),
                         ),
