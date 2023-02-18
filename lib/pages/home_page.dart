@@ -8,6 +8,7 @@ import 'cart_page.dart';
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
+
   void _buyOptions(BuildContext context, int index) {
     showModalBottomSheet(
         context: context,
@@ -27,10 +28,17 @@ class HomePage extends StatelessWidget {
                 ),
                 ListTile(
                   onTap: () {
-                    Provider.of<CartModel>(context, listen: false).addToCart(index);
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Added to Cart')));
+                    if(Provider.of<CartModel>(context, listen: false).checkExist(index)){
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Already in cart')));
+                    }else {
+                      Provider.of<CartModel>(context, listen: false).addToCart(
+                          index);
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text('Added to Cart')));
+                    }
                   },
                   leading: const Icon(Icons.shopping_bag),
                   title: const Text('Add to cart'),
