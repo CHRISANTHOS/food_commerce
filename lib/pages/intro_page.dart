@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'home_page.dart';
-import 'package:provider/provider.dart';
 
 class IntroPage extends StatelessWidget {
   @override
@@ -42,7 +41,7 @@ class IntroPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(13.0),
                 child: Text('Get Started', style: TextStyle(color: Colors.white),),
               ),
             ),

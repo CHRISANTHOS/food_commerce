@@ -59,6 +59,7 @@ class HomePage extends StatelessWidget {
       },backgroundColor: Colors.black, child:vm.cartItems.isEmpty ? const Icon(Icons.shopping_bag) : Text(vm.cartItems.length.toString()),),
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               height: 30,

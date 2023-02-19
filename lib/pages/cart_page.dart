@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:food_commerce/model/cart_model.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -19,14 +20,21 @@ class _CartPageState extends State<CartPage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white12,
-        title: Text(
-          'My Cart',
-          style: TextStyle(color: Colors.black54),
-        ),
+        backgroundColor: Colors.transparent,
+        iconTheme: IconThemeData(color: Colors.black),
+        elevation: 0,
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              'My Cart',
+              style: GoogleFonts.notoSerif(
+                  fontSize: 30, fontWeight: FontWeight.bold),
+            ),
+          ),
           Expanded(
             child: ListView.builder(
                 padding: EdgeInsets.all(10),
@@ -59,6 +67,9 @@ class _CartPageState extends State<CartPage> {
                           ActionPane(motion: ScrollMotion(), children: [
                         SlidableAction(
                           onPressed: (context){
+                            setState(() {
+                              vm.cartItems[index][4] = quantity;
+                            });
                             vm.removeItem(index);
                           },
                           backgroundColor: Colors.redAccent,
@@ -79,30 +90,53 @@ class _CartPageState extends State<CartPage> {
                   );
                 }),
           ),
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Container(
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.black45
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Total Price', style: TextStyle(color: Colors.white30),),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text('\$${vm.calculateTotal()}', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
+                      ],
+                    ),
+                    GestureDetector(
+                      onTap: (){
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Payment method coming soon')));
+                      },
+                      child: Container(
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.white)
+                        ),
+                        child: Row(
+                          children: const [
+                            Text('Pay Now', style: TextStyle(color: Colors.white),),
+                            Icon(Icons.chevron_right, size: 13, color: Colors.white,)
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+          )
         ],
-      ),
-    );
-  }
-}
-
-class RoundIconButton extends StatelessWidget {
-
-  final VoidCallback onPressed;
-  final IconData icon;
-  RoundIconButton({required this.icon,required this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return RawMaterialButton(
-      child: Icon(icon),
-      onPressed: onPressed,
-      shape: CircleBorder(),
-      fillColor: Colors.black26,
-      textStyle: TextStyle(color: Colors.white),
-      elevation: 6.0,
-      constraints: BoxConstraints.tightFor(
-          width: 10.0,
-          height: 10.0
       ),
     );
   }
